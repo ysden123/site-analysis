@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2023. StulSoft
+ */
+
+package com.stulsoft.site.analysis.scraper
+
+import net.ruippeixotog.scalascraper.browser.JsoupBrowser
+import net.ruippeixotog.scalascraper.model.Document
+
+import scala.util.Try
+
+object NewsStartPageScraper:
+
+  def getDocument: Document =
+    val browser = JsoupBrowser()
+    browser.get("https://news.startpage.co.il/russian/")
+
+  def extractTextLines(document: Document): Try[Iterable[String]] =
+    Try {
+      document
+        .body
+        .select("#content").head
+        .children
+        .filter(element => "div" == element.tagName && "colum" == element.attr("class"))
+        .head
+        .children
+        .filter(element => "div" == element.tagName && "box" == element.attr("class"))
+        .head
+        .children
+        .filter(element => "ul" == element.tagName && element.hasAttr("class") && "menu" == element.attr("class"))
+        .flatMap(element => element.children)
+        .filter(element => "li" == element.tagName)
+        .flatMap(element => element.children)
+        .filter(element => "span" == element.tagName)
+        .flatMap(element => element.children)
+        .filter(element => "a" == element.tagName)
+        .map(element => element.text)
+    }

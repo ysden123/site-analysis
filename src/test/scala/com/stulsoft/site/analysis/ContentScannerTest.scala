@@ -6,23 +6,27 @@ package com.stulsoft.site.analysis
 
 import org.scalatest.flatspec.AnyFlatSpec
 
-import scala.io.Source
-import scala.util.Using
-
 class ContentScannerTest extends AnyFlatSpec:
   "ContentScanner" should "extract words" in {
-    Using(Source.fromFile("src/test/resources/test1.html")) {
-      source => {
-        ContentScanner
-          .extractWords(source.mkString)
-          .filter(wi => wi.count > 1)
-          .foreach(wi => println(s"${wi.name} - ${wi.count}"))
-      }
-    }
+    val lines = List(
+      "aaa bbb ccc"
+    )
+    val result = ContentScanner.extractWords(lines, Set())
+    assertResult(3)(result.size)
   }
 
-  it should "return empty collection" in {
-    assertResult(0)(ContentScanner
-      .extractWords("hghghjgjhghj")
-      .size)
+  it should "process special symbols" in {
+    val lines = List(
+      """w1,w2:w3.w4-w5"w6;w7#w8&w9[w10]w11(w12)"""
+    )
+    val result = ContentScanner.extractWords(lines, Set())
+    assertResult(12)(result.size)
+  }
+
+  it should "process duplicated special symbols" in {
+    val lines = List(
+      """w1 ,w2;:w3,.w4-w5"w6;w7"""
+    )
+    val result = ContentScanner.extractWords(lines, Set())
+    assertResult(7)(result.size)
   }
