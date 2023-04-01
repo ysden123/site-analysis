@@ -2,7 +2,7 @@
  * Copyright (c) 2023. StulSoft
  */
 
-package com.stulsoft.site.analysis
+package com.stulsoft.site.analysis.scraper
 
 import com.typesafe.scalalogging.StrictLogging
 
@@ -34,7 +34,7 @@ object ContentScanner extends StrictLogging:
         .filter(i => !i.isBlank && i.nonEmpty)
         .filter(i => !i.forall(Character.isDigit))
         .filter(i => i.length > 1)
-        .filter(i => !wordsToExclude.contains(i))
+        .filter(i => !wordsToExclude.contains(i.toLowerCase()))
         .foreach(word => wordInfoMap.getOrElseUpdate(word, WordInfo(word)).increaseCount())
     )
     wordInfoMap

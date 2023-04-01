@@ -2,8 +2,9 @@
  * Copyright (c) 2023. StulSoft
  */
 
-package com.stulsoft.site.analysis
+package com.stulsoft.site.analysis.scraper
 
+import com.stulsoft.site.analysis.scraper.ContentScanner
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ContentScannerTest extends AnyFlatSpec:

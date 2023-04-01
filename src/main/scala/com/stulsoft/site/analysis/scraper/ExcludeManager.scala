@@ -2,7 +2,7 @@
  * Copyright (c) 2023. StulSoft
  */
 
-package com.stulsoft.site.analysis
+package com.stulsoft.site.analysis.scraper
 
 object ExcludeManager:
   def wordsToExclude_rus: Set[String] =
@@ -56,5 +56,14 @@ object ExcludeManager:
       "среди",
       "у",
       "через",
-      "чрез"
+      "чрез",
+      "когда",
+      "после",
+      "но",
+      "его",
+      "ее",
+      "её",
+      "ли",
+      "чем",
+      "чтобы",
     )
