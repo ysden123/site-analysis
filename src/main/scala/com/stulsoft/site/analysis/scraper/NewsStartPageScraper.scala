@@ -11,7 +11,6 @@ import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success, Try}
 
 object NewsStartPageScraper:
-
   private def getDocument: Document =
     val browser = JsoupBrowser()
     browser.get("https://news.startpage.co.il/russian/")
@@ -40,14 +39,16 @@ object NewsStartPageScraper:
 
   def buildWordDefinition(): Future[String] =
     val promise = Promise[String]()
-    val document = NewsStartPageScraper.getDocument
-    NewsStartPageScraper.extractTextLines(document) match
-      case Success(lines) =>
-        val result = ContentScanner.extractWords(lines, ExcludeManager.wordsToExclude_rus)
-          .filter(wi => wi.count > 1)
-          .map(wi => s"${wi.name} - ${wi.count}")
-          .mkString("\n")
-        promise.success(result)
-      case Failure(exception) =>
-        promise.failure(exception)
+    Future {
+      val document = NewsStartPageScraper.getDocument
+      NewsStartPageScraper.extractTextLines(document) match
+        case Success(lines) =>
+          val result = ContentScanner.extractWords(lines, ExcludeManager.wordsToExclude_rus)
+            .filter(wi => wi.count > 1)
+            .map(wi => s"${wi.name} - ${wi.count}")
+            .mkString("\n")
+          promise.success(result)
+        case Failure(exception) =>
+          promise.failure(exception)
+    }
     promise.future

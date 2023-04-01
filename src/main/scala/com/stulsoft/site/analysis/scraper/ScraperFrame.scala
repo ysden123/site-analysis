@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities
 import scala.concurrent.Future
 import scala.swing.Swing.EtchedBorder
 import scala.swing.event.ButtonClicked
-import scala.swing.{BorderPanel, Button, FlowPanel, Panel, ScrollPane, Swing, TextArea}
+import scala.swing.*
 import scala.util.{Failure, Success}
 
 given ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
@@ -24,17 +24,15 @@ class ScraperFrame extends BorderPanel {
         resultList.text = "Please wait..."
         enabled = false
         SwingUtilities.invokeLater(() => {
-          Future {
-            NewsStartPageScraper.buildWordDefinition().onComplete {
-              case Success(wordsDistribution) =>
-                resultList.text = wordsDistribution
-                thePanel.cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
-                enabled = true
-              case Failure(exception) =>
-                resultList.text = exception.getMessage
-                thePanel.cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
-                enabled = true
-            }
+          NewsStartPageScraper.buildWordDefinition().onComplete {
+            case Success(wordsDistribution) =>
+              resultList.text = wordsDistribution
+              thePanel.cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
+              enabled = true
+            case Failure(exception) =>
+              resultList.text = exception.getMessage
+              thePanel.cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
+              enabled = true
           }
         })
     }
