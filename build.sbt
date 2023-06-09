@@ -1,7 +1,7 @@
 import java.util.Calendar
 
 ThisBuild / scalaVersion := "3.3.0"
-ThisBuild / version := "1.0.2"
+ThisBuild / version := "1.0.3"
 ThisBuild / organization := "com.stulsoft"
 ThisBuild / organizationName := "stulsoft"
 
@@ -9,7 +9,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "site-analysis",
     libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
-    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.6",
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.7",
     libraryDependencies += "net.ruippeixotog" %% "scala-scraper" % "3.0.0",
     libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "3.0.0",
 
